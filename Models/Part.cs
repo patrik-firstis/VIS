@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,16 @@ using System.Threading.Tasks;
 
 namespace vistest.Models
 {
-	public class Part
+	public partial class Part : ObservableObject
 	{
-		public int Id { get; set; }
-		public string Brand { get; set; } = string.Empty;
-		public string Model { get; set; } = string.Empty;
-		public string Description { get; set; } = string.Empty;
+		[ObservableProperty]
+		private int _id;
+		[ObservableProperty]
+		private string _brand = string.Empty;
+		[ObservableProperty]
+		private string _model = string.Empty;
+		[ObservableProperty]
+		private string _description = string.Empty;
 
 		public Dictionary<Servis, int> Stock { get; set; } = [];
 	}

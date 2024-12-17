@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace vistest.Models
 {
-	public class Customer : Person
+	public partial class Customer : Person
 	{
-		public string Phone { get; set; } = string.Empty;
-		public string Email { get; set; } = string.Empty;
-		
-		public List<Car> Cars { get; set; } = [];
+		[ObservableProperty]
+		private string _phone = string.Empty;
+		[ObservableProperty]
+		private string _email = string.Empty;
 	}
 
 }

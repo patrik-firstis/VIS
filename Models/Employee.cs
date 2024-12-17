@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,13 +14,18 @@ namespace vistest.Models
 		Mechanic,
 		StorageManager,
 	}
-	public class Employee : Person
+	public partial class Employee : Person
 	{
-		public int IdServis { get; set; }
-		public string Position { get; set; } = string.Empty;
-		public DateTime EmploymentStartAt { get; set; }
-		public DateTime? EmploymentEndAt { get; set; }
-		public double Salary { get; set; }
+		[ObservableProperty]
+		private int _idServis;
+		[ObservableProperty]
+		private string _position = string.Empty;
+		[ObservableProperty]
+		private DateTime _employmentStartAt;
+		[ObservableProperty]
+		private DateTime? _employmentEndAt;
+		[ObservableProperty]
+		private double _salary;
 
 		public Servis Servis { get; set; }
 

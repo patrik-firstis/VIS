@@ -1,18 +1,25 @@
 ﻿
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace vistest.Models
 {
-	public class Car
+	public partial class Car : ObservableObject
 	{
-		public int Id { get; set; }
-		public int IdCustomer { get; set; }
-		public string Brand { get; set; } = string.Empty;
-		public string Model { get; set; } = string.Empty;
-		public string? LicencePlate { get; set; }
-		public int LastMileage { get; set; }
-
-		public Customer Customer { get; set; } 
-		public List<Order> Orders { get; set; } = [];
+		[ObservableProperty]
+		private int _id;
+		[ObservableProperty]
+		private int _idCustomer;
+		[ObservableProperty]
+		private string _brand = string.Empty;
+		[ObservableProperty]
+		private string _model = string.Empty;
+		[ObservableProperty]
+		private string? _licencePlate;
+		[ObservableProperty]
+		private int _lastMileage;
+		[ObservableProperty]
+		private Customer _customer;
 
 		public Car(Customer customer)
 		{
