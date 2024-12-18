@@ -32,11 +32,6 @@ namespace vistest.Models
 		[ObservableProperty]
 		private Servis _servis;
 
-		public Order(Car car, Servis servis)
-		{
-			Car = car;
-			Servis = servis;
-		}
 	}
 
 }

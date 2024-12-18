@@ -26,12 +26,7 @@ namespace vistest.Models
 		private DateTime? _employmentEndAt;
 		[ObservableProperty]
 		private double _salary;
-
-		public Servis Servis { get; set; }
-
-		public Employee(Servis servis)
-		{
-			Servis = servis;
-		}
+		[ObservableProperty]
+		private Servis _servis;
 	}
 }

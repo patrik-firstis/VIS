@@ -19,12 +19,7 @@ namespace vistest.Models
 		[ObservableProperty]
 		private int _lastMileage;
 		[ObservableProperty]
-		private Customer _customer;
-
-		public Car(Customer customer)
-		{
-			Customer = customer;
-		}
+		private Customer _customer = new();
 	}
 
 }
