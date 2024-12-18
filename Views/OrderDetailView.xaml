@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:vistest.ViewModels"
+             x:Class="vistest.Views.OrderDetailView"
+             Title="OrderDetailView"
+             x:DataType="viewModels:OrderDetailViewModel">
+  <Grid>
+    <Border
+      StrokeThickness="2"
+      StrokeShape="RoundRectangle 10"
+      Padding="30"
+      VerticalOptions="Center"
+      HorizontalOptions="Center">
+      <VerticalStackLayout Spacing="10">
+        <Label 
+          Text="Nová zakázka"
+          VerticalOptions="Center" 
+          HorizontalOptions="Center"
+          Margin="0,10"/>
+        <Label 
+          Text="Zákazník"
+          VerticalOptions="Center" 
+          HorizontalOptions="Start" />
+        <HorizontalStackLayout Spacing="10">
+          <Entry 
+            IsReadOnly="True"
+            Text="{Binding CustomerName}"
+            IsEnabled="{Binding IsCustomerSelectable}"
+            Placeholder="Meno zákazníka"
+            WidthRequest="200"/>
+          <Button 
+            Text="Pridať"
+            Command="{Binding AddCustomerCommand}"
+            BackgroundColor="Cyan"/>
+        </HorizontalStackLayout>
+        <Label 
+          Text="Auto"
+          VerticalOptions="Center" 
+          HorizontalOptions="Start" />
+        <HorizontalStackLayout Spacing="10">
+          <Entry
+            IsReadOnly="True"
+            Text="{Binding CarName}"
+            Placeholder="Značka auta"
+            WidthRequest="200"/>
+          <Button 
+            Text="Pridať"
+            Command="{Binding AddCarCommand}"
+            BackgroundColor="Cyan"/>
+        </HorizontalStackLayout>
+
+        <Label 
+          Text="Popis chyby"
+          VerticalOptions="Center" 
+          HorizontalOptions="Start" />
+        <Editor
+          Text="{Binding Order.Description}"
+          Placeholder="Popis chyby"
+          HeightRequest="100"/>
+
+      </VerticalStackLayout>
+    </Border>
+    
+  </Grid>
+</ContentPage>

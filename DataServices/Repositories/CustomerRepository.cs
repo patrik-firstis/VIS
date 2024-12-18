@@ -1,17 +1,18 @@
 ﻿
+using System.Data.SQLite;
 using vistest.Models;
 
 namespace vistest.DataServices
 {
   public class CustomerRepository(DbService dbService) : BaseRepository(dbService)
   {
-    public void Add(Customer customer)
+    public int Add(Customer customer)
     {
-      string query = @"
-                INSERT INTO Customer (name, surname, phone, email)
-                VALUES (@Name, @Surname, @Phone, @Email);";
+        string query = @"
+                INSERT INTO Customer (name, surname, email, phone)
+                VALUES (@Name, @Surname, @Email, @Phone);";
 
-      var parameters = new Dictionary<string, object?>
+        var parameters = new Dictionary<string, object?>
             {
                 {"@Name", customer.Name},
                 {"@Surname", customer.SurName},
@@ -19,7 +20,7 @@ namespace vistest.DataServices
                 {"@Email", customer.Email}
             };
 
-      ExecuteNonQuery(query, parameters);
+       return ExecuteScalarInsert(query, parameters);
     }
 
     public void Update(Customer customer)

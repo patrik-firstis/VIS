@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
@@ -37,6 +38,16 @@ namespace vistest.DataServices
         }
       }
       return command.ExecuteReader();
+    }
+
+    protected int ExecuteScalarInsert(string query, Dictionary<string, object?> parameters)
+    {
+      using var command = new SQLiteCommand(query + "SELECT last_insert_rowid()", dbService.GetConnection());
+      foreach (var param in parameters)
+      {
+        command.Parameters.AddWithValue(param.Key, param.Value);
+      }
+      return Convert.ToInt32(command.ExecuteScalar());
     }
   }
 }

@@ -10,7 +10,7 @@ namespace vistest.DataServices
   public class ServisRepository(DbService dbService) : BaseRepository(dbService)
   {
 
-    public void Add(Servis servis)
+    public int Add(Servis servis)
     {
       string query = @"
                 INSERT INTO Servis (name, address, opened_at, closed_at)
@@ -24,7 +24,7 @@ namespace vistest.DataServices
                 {"@ClosedAt", servis.ClosedAt}
             };
 
-      ExecuteNonQuery(query, parameters);
+      return ExecuteScalarInsert(query, parameters);
     }
 
     public void Update(Servis servis)

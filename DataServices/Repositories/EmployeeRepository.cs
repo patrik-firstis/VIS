@@ -9,7 +9,7 @@ namespace vistest.DataServices
 {
   public class EmployeeRepository(DbService dbService) : BaseRepository(dbService)
   {
-    public void Add(Employee employee)
+    public int Add(Employee employee)
     {
       string query = @"
                 INSERT INTO Employee (id_servis, name, surname, position, employment_start_at, employment_end_at, salary)
@@ -26,7 +26,7 @@ namespace vistest.DataServices
                 {"@Salary", employee.Salary}
             };
 
-      ExecuteNonQuery(query, parameters);
+      return ExecuteScalarInsert(query, parameters);
     }
 
     public void Update(Employee employee)

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:vistest.ViewModels"
+             x:Class="vistest.Views.MainView"
+             Title="MainView"
+             x:DataType="viewModels:MainViewModel">
+  <Grid
+    ColumnDefinitions="0.2*,*,0.1*,*,0.2*"
+    RowDefinitions="0.2*,*,0.2*">
+    <Border
+      Grid.Column="1"
+      Grid.Row="1"
+      StrokeThickness="2"
+      StrokeShape="RoundRectangle 10"
+      Padding="20">
+      <VerticalStackLayout Spacing="10">
+        <Label 
+          Text="Prehľad"
+          FontAttributes="Bold"
+          FontSize="20"
+          Margin="0,10"/>
+        <Label Text="{Binding OrderTotal, StringFormat='Celkový počet zákaziek:     {0}'}"/>
+        <Label Text="{Binding OrderPending, StringFormat='Čakajúce zakázky:              {0}'}"/>
+        <Label Text="{Binding OrderInProgress, StringFormat='Zakázky v priebehu:           {0}'}"/>
+        <Label Text="{Binding OrderDone, StringFormat='Dokončené zakázky:          {0}'}"/>
+      </VerticalStackLayout>
+    </Border>
+
+    <Border
+      Grid.Column="3"
+      Grid.Row="1"
+      StrokeThickness="2"
+      StrokeShape="RoundRectangle 10"
+      Padding="20">
+      <VerticalStackLayout Spacing="20">
+        <Label 
+          Text="Rýchle akcie"
+          FontAttributes="Bold"
+          FontSize="20"
+          Margin="0,10"/>
+        <Button
+          Text="Vytvoriť zakázku"
+          Command="{Binding AddOrderCommand}"
+          HorizontalOptions="Fill"
+          BackgroundColor="Cyan"/>
+        <Button
+          Text="Zoznam zákaziek"
+          Command="{Binding OpenOrdersCommand}"
+          HorizontalOptions="Fill"
+          BackgroundColor="Cyan"/>
+        <Button
+          Text="Zoznam zamestnancov"
+          Command="{Binding OpenEmployeesCommand}"
+          HorizontalOptions="Fill"
+          BackgroundColor="Cyan"/>
+        <Button
+          Text="Správa dielov"
+          Command="{Binding OpenPartsCommand}"
+          HorizontalOptions="Fill"
+          BackgroundColor="Cyan"/>
+      </VerticalStackLayout>
+    </Border>
+  </Grid>
+</ContentPage>

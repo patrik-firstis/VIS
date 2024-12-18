@@ -10,21 +10,23 @@ namespace vistest.DataServices
   public class CarService : IModelService<Car>
   {
     private readonly CarRepository _carRepository;
+    private readonly CustomerRepository _customerRepository;
     private readonly Dictionary<int, Car> _carIdentityMap;
 
-    public CarService(CarRepository carRepository)
+    public CarService(CarRepository carRepository, CustomerRepository customerRepository)
     {
       _carRepository = carRepository;
+      _customerRepository = customerRepository;
       _carIdentityMap = [];
     }
 
     private Car? Add(Car car)
     {
-      _carRepository.Add(car);
-      var existingCar = _carRepository.Get(car.Id);
+      int id = _carRepository.Add(car);
+      var existingCar = _carRepository.Get(id);
       if (existingCar != null)
       {
-        _carIdentityMap[car.Id] = existingCar;
+        _carIdentityMap[existingCar.Id] = existingCar;
       }
       return existingCar;
     }
@@ -62,6 +64,7 @@ namespace vistest.DataServices
       var car = _carRepository.Get(id);
       if (car != null)
       {
+        car.Customer = _customerRepository.Get(car.IdCustomer)!;
         _carIdentityMap[id] = car;
         return car;
       }
@@ -78,6 +81,7 @@ namespace vistest.DataServices
         cars = _carRepository.GetAll();
         foreach (var car in cars)
         {
+          car.Customer = _customerRepository.Get(car.IdCustomer)!;
           _carIdentityMap[car.Id] = car;
         }
       }

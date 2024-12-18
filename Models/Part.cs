@@ -18,7 +18,7 @@ namespace vistest.Models
 		[ObservableProperty]
 		private string _description = string.Empty;
 
-		public Dictionary<Servis, int> Stock { get; set; } = [];
+		public Dictionary<int, int> Stock { get; set; } = [];
 	}
 
 }

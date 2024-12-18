@@ -9,7 +9,7 @@ namespace vistest.DataServices
 {
   public class PartRepository(DbService service) : BaseRepository(service)
   {
-    public void Add(Part part)
+    public int Add(Part part)
     {
       string query = @"
                 INSERT INTO Part (brand, model, description)
@@ -22,7 +22,7 @@ namespace vistest.DataServices
                 {"@Description", part.Description}
             };
 
-      ExecuteNonQuery(query, parameters);
+      return ExecuteScalarInsert(query, parameters);
     }
 
     public void Update(Part part)

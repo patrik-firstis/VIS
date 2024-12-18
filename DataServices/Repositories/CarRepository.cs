@@ -9,7 +9,7 @@ namespace vistest.DataServices
 {
   public class CarRepository(DbService dbService) : BaseRepository(dbService)
   {
-    public void Add(Car car)
+    public int Add(Car car)
     {
       string query = @"
                 INSERT INTO Car (id_customer, brand, model, licence_plate, last_mileage)
@@ -24,7 +24,7 @@ namespace vistest.DataServices
                 {"@LastMileage", car.LastMileage}
             };
 
-      ExecuteNonQuery(query, parameters);
+      return ExecuteScalarInsert(query, parameters);
     }
 
     public void Update(Car car)

@@ -11,7 +11,7 @@ namespace vistest.DataServices
   public class OrderRepository(DbService dbService) : BaseRepository(dbService)
   {
 
-    public void Add(Order order)
+    public int Add(Order order)
     {
       string query = @"
                 INSERT INTO 'Order' 
@@ -31,7 +31,7 @@ namespace vistest.DataServices
                 {"@Cost", order.Cost}
             };
 
-      ExecuteNonQuery(query, parameters);
+      return ExecuteScalarInsert(query, parameters);
     }
 
     public void Update(Order order)

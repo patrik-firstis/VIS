@@ -12,9 +12,11 @@ namespace vistest.DataServices
     private readonly string _dbPath;
     private readonly string _connectionString;
 
-    public DbService(string dbFileName = "database.db")
+    public DbService(string dbFileName = "database1.db")
     {
-      _dbPath = Path.Combine(FileSystem.AppDataDirectory, dbFileName);
+      string solutionFolder = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\..\.."));
+
+      _dbPath = Path.Combine(solutionFolder, "sqlite.db");
       _connectionString = $"Data Source={_dbPath};Version=3;";
       InitializeDatabase();
     }
@@ -32,7 +34,7 @@ namespace vistest.DataServices
 
         var createTablesScript = @"
                     CREATE TABLE IF NOT EXISTS Customer (
-                        id_customer INTEGER PRIMARY KEY,
+                        id_customer INTEGER PRIMARY KEY AUTOINCREMENT,
                         name VARCHAR(45) NOT NULL,
                         surname VARCHAR(45) NOT NULL,
                         phone VARCHAR(13),
@@ -40,7 +42,7 @@ namespace vistest.DataServices
                     );
 
                     CREATE TABLE IF NOT EXISTS Car (
-                        id_car INTEGER PRIMARY KEY,
+                        id_car INTEGER PRIMARY KEY AUTOINCREMENT,
                         id_customer INTEGER NOT NULL,
                         brand VARCHAR(45) NOT NULL,
                         model VARCHAR(45) NOT NULL,
@@ -50,7 +52,7 @@ namespace vistest.DataServices
                     );
 
                     CREATE TABLE IF NOT EXISTS Servis (
-                        id_servis INTEGER PRIMARY KEY,
+                        id_servis INTEGER PRIMARY KEY AUTOINCREMENT,
                         name VARCHAR(45) NOT NULL,
                         address VARCHAR(100) NOT NULL,
                         opened_at DATE NOT NULL,
@@ -58,7 +60,7 @@ namespace vistest.DataServices
                     );
 
                     CREATE TABLE IF NOT EXISTS Employee (
-                        id_employee INTEGER PRIMARY KEY,
+                        id_employee INTEGER PRIMARY KEY AUTOINCREMENT,
                         id_servis INTEGER NOT NULL,
                         name VARCHAR(45) NOT NULL,
                         surname VARCHAR(45) NOT NULL,
@@ -70,7 +72,7 @@ namespace vistest.DataServices
                     );
 
                     CREATE TABLE IF NOT EXISTS Part (
-                        id_part INTEGER PRIMARY KEY,
+                        id_part INTEGER PRIMARY KEY AUTOINCREMENT,
                         brand VARCHAR(45) NOT NULL,
                         model VARCHAR(45) NOT NULL,
                         description VARCHAR(100)
@@ -86,7 +88,7 @@ namespace vistest.DataServices
                     );
 
                     CREATE TABLE IF NOT EXISTS `Order` (
-                        id_order INTEGER PRIMARY KEY,
+                        id_order INTEGER PRIMARY KEY AUTOINCREMENT,
                         id_car INTEGER NOT NULL,
                         id_servis INTEGER NOT NULL,
                         created_at DATETIME NOT NULL,
@@ -108,7 +110,9 @@ namespace vistest.DataServices
 
     public SQLiteConnection GetConnection()
     {
-      return new SQLiteConnection(_connectionString);
+      var connection = new SQLiteConnection(_connectionString);
+      connection.Open();
+      return connection;
     }
   }
 }

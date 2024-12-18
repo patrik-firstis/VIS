@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using vistest.DataServices.ModelServices;
 using vistest.Models;
 
 namespace vistest.DataServices
@@ -21,11 +20,11 @@ namespace vistest.DataServices
 
     private Servis? Add(Servis servis)
     {
-      _servisRepository.Add(servis);
-      var existingServis = _servisRepository.Get(servis.Id);
+      var id = _servisRepository.Add(servis);
+      var existingServis = _servisRepository.Get(id);
       if (existingServis != null)
       {
-        _servisIdentityMap[servis.Id] = existingServis;
+        _servisIdentityMap[existingServis.Id] = existingServis;
       }
       return existingServis;
     }

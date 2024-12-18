@@ -20,11 +20,11 @@ namespace vistest.DataServices
 
     private Customer? Add(Customer customer)
     {
-      _customerRepository.Add(customer);
-      var existingCustomer = _customerRepository.Get(customer.Id);
+      var id = _customerRepository.Add(customer);
+      var existingCustomer = _customerRepository.Get(id);
       if (existingCustomer != null)
       {
-        _customerIdentityMap[customer.Id] = existingCustomer;
+        _customerIdentityMap[existingCustomer.Id] = existingCustomer;
       }
       return existingCustomer;
 

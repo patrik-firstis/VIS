@@ -53,6 +53,17 @@ namespace vistest.DataServices
       ExecuteNonQuery(query, parameters);
     }
 
+    public void DeleteAll(int idPart)
+    {
+      string query = "DELETE FROM Part_Servis WHERE id_part = @IdPart;";
+      var parameters = new Dictionary<string, object?>
+          {
+              {"@IdPart", idPart}
+          };
+
+      ExecuteNonQuery(query, parameters);
+    }
+
     public int? Get(int idPart, int idServis)
     {
       string query = "SELECT * FROM Part_Servis WHERE id_part_servis = @Id;";
@@ -68,6 +79,23 @@ namespace vistest.DataServices
         return Convert.ToInt32(reader["stock"]);
       }
       return null;
+    }
+
+    public Dictionary<int, int> GetAll(int idPart)
+    {
+      string query = "SELECT * FROM Part_Servis WHERE id_part = @IdPart;";
+      var parameters = new Dictionary<string, object?>
+          {
+              {"@IdPart", idPart}
+          };
+
+      var result = new Dictionary<int, int>();
+      using var reader = ExecuteReader(query, parameters);
+      while (reader.Read())
+      {
+        result.Add(Convert.ToInt32(reader["id_servis"]), Convert.ToInt32(reader["stock"]));
+      }
+      return result;
     }
   }
 }

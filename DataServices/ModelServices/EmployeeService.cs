@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using vistest.DataServices.ModelServices;
 using vistest.Models;
 
 namespace vistest.DataServices
@@ -11,21 +10,23 @@ namespace vistest.DataServices
   public class EmployeeService : IModelService<Employee>
   {
     private readonly EmployeeRepository _employeeRepository;
+    private readonly ServisRepository _servisRepository;
     private readonly Dictionary<int, Employee> _employeeIdentityMap;
 
-    public EmployeeService(EmployeeRepository employeeRepository)
+    public EmployeeService(EmployeeRepository employeeRepository, ServisRepository servisRepository)
     {
       _employeeRepository = employeeRepository;
+      _servisRepository = servisRepository;
       _employeeIdentityMap = [];
     }
 
     private Employee? Add(Employee employee)
     {
-      _employeeRepository.Add(employee);
-      var existingEmployee = _employeeRepository.Get(employee.Id);
+      var id = _employeeRepository.Add(employee);
+      var existingEmployee = _employeeRepository.Get(id);
       if (existingEmployee != null)
       {
-        _employeeIdentityMap[employee.Id] = existingEmployee;
+        _employeeIdentityMap[existingEmployee.Id] = existingEmployee;
       }
       return existingEmployee;
     }
@@ -62,6 +63,7 @@ namespace vistest.DataServices
       var employee = _employeeRepository.Get(id);
       if (employee != null)
       {
+        employee.Servis = _servisRepository.Get(employee.IdServis)!;
         _employeeIdentityMap[id] = employee;
         return employee;
       }
@@ -78,6 +80,7 @@ namespace vistest.DataServices
         employees = _employeeRepository.GetAll();
         foreach (var employee in employees)
         {
+          employee.Servis = _servisRepository.Get(employee.IdServis)!;
           _employeeIdentityMap[employee.Id] = employee;
         }
       }
