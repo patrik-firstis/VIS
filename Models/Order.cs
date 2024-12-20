@@ -28,9 +28,17 @@ namespace vistest.Models
 		[ObservableProperty]
 		private double _cost;
 		[ObservableProperty]
-		private Car _car;
+		private Car _car = new Car();
 		[ObservableProperty]
-		private Servis _servis;
+		private Servis _servis = new Servis();
+
+		public static List<string> StateList { get; } = 
+			new List<string> 
+			{ "New",
+				"Pending",
+				"In Progress",
+				"Done"
+			};
 
 	}
 

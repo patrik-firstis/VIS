@@ -65,7 +65,32 @@ namespace vistest
 				{
 					BindingContext = s.GetRequiredService<CarDetailViewModel>()
         })
-      ;
+				.AddSingleton<CustomerListViewModel>()
+				.AddTransient(s => new CustomerListView()
+				{
+					BindingContext = s.GetRequiredService<CustomerListViewModel>()
+				})
+				.AddSingleton<CarListViewModel>()
+				.AddTransient(s => new CarListView()
+				{
+					BindingContext = s.GetRequiredService<CarListViewModel>()
+				})
+				.AddSingleton<EmployeeListViewModel>()
+				.AddTransient(s => new EmployeeListView()
+				{
+					BindingContext = s.GetRequiredService<EmployeeListViewModel>()
+				})
+				.AddSingleton<OrderListViewModel>()
+				.AddTransient(s => new OrderListView()
+				{
+					BindingContext = s.GetRequiredService<OrderListViewModel>()
+				})
+				.AddSingleton<EmployeeDeatilViewModel>()
+				.AddTransient(s => new EmployeeDetailView()
+				{
+					BindingContext = s.GetRequiredService<EmployeeDeatilViewModel>()
+				})
+			;
 
 
 

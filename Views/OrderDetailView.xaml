@@ -6,6 +6,7 @@
              Title="OrderDetailView"
              x:DataType="viewModels:OrderDetailViewModel">
   <Grid>
+		<ScrollView>
     <Border
       StrokeThickness="2"
       StrokeShape="RoundRectangle 10"
@@ -25,15 +26,20 @@
         <HorizontalStackLayout Spacing="10">
           <Entry 
             IsReadOnly="True"
-            Text="{Binding CustomerName}"
-            IsEnabled="{Binding IsCustomerSelectable}"
+            Text="{Binding Order.Car.Customer.FullName}"
             Placeholder="Meno zákazníka"
             WidthRequest="200"/>
           <Button 
-            Text="Pridať"
+            Text="Nový"
             Command="{Binding AddCustomerCommand}"
+						IsVisible="{Binding IsCustomerSelectable}"
             BackgroundColor="Cyan"/>
-        </HorizontalStackLayout>
+					<Button
+						Text="Vybrať"
+						Command="{Binding SelectCustomerCommand}"
+						IsVisible="{Binding IsCustomerSelectable}"
+						BackgroundColor="Cyan"/>
+				</HorizontalStackLayout>
         <Label 
           Text="Auto"
           VerticalOptions="Center" 
@@ -41,16 +47,33 @@
         <HorizontalStackLayout Spacing="10">
           <Entry
             IsReadOnly="True"
-            Text="{Binding CarName}"
+            Text="{Binding Order.Car.FullName}"
             Placeholder="Značka auta"
             WidthRequest="200"/>
+					
           <Button 
-            Text="Pridať"
+            Text="Nový"
             Command="{Binding AddCarCommand}"
+						IsVisible="{Binding IsCarSelectable}"
             BackgroundColor="Cyan"/>
-        </HorizontalStackLayout>
+					<Button
+						Text="Vybrať"
+						Command="{Binding SelectCarCommand}"
+						IsVisible="{Binding IsCarSelectable}"
+						BackgroundColor="Cyan"/>
+				</HorizontalStackLayout>
 
-        <Label 
+				<Label
+					Text="Stav"
+					VerticalOptions="Center" 
+					HorizontalOptions="Start" />
+				<Picker
+					SelectedItem="{Binding Order.State}"
+					ItemsSource="{Binding StateList}"
+					IsEnabled="{Binding IsNotNew}"/>
+
+
+				<Label 
           Text="Popis chyby"
           VerticalOptions="Center" 
           HorizontalOptions="Start" />
@@ -58,9 +81,20 @@
           Text="{Binding Order.Description}"
           Placeholder="Popis chyby"
           HeightRequest="100"/>
+				<Button
+					Text="Uložiť"
+					Command="{Binding SaveCommand}"
+					IsVisible="{Binding CanEdit}"
+					BackgroundColor="Cyan"/>
+					<Button
+					Text="Zmazať"
+					Command="{Binding DeleteCommand}"
+					IsVisible="{Binding CanEdit}"
+					BackgroundColor="Red"/>
 
-      </VerticalStackLayout>
+				</VerticalStackLayout>
+			
     </Border>
-    
-  </Grid>
+		</ScrollView>
+	</Grid>
 </ContentPage>

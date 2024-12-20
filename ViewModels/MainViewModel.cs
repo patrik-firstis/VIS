@@ -27,14 +27,26 @@ namespace vistest.ViewModels
     [ObservableProperty]
     private int _orderInProgress = 0;
 
-    public MainViewModel(OrderService orderService)
+    [ObservableProperty]
+    private bool _canCreateOrder = false;
+		[ObservableProperty]
+		private bool _canSearchEmployees = false;
+		[ObservableProperty]
+    private bool _canSearchOrders = false;
+
+		public MainViewModel(OrderService orderService)
     {
       _orderService = orderService;
     }
 
     public void OnAppearing()
     {
-      var result = _orderService.GetAll();
+      var position = AppState.CurrentEmployee.Position;
+      CanSearchEmployees = position == "Admin";
+			CanSearchOrders = position == "Admin" || position == "Manager" || position == "Mechanic";
+      CanCreateOrder = position == "Admin" || position == "Manager";
+
+			var result = _orderService.GetAll();
       if (AppState.CurrentServis.Id != 0)
       {
          Orders = result.Where(x => x.IdServis == AppState.CurrentServis.Id).ToList();
@@ -44,9 +56,9 @@ namespace vistest.ViewModels
         Orders = result;
       }
       OrderTotal = Orders.Count;
-      OrderDone = Orders.Where(x => x.State == "Done").Count();
-      OrderPending = Orders.Where(x => x.State == "Pending").Count();
-      OrderInProgress = Orders.Where(x => x.State == "InProgress").Count();
+      OrderDone = Orders.Where(x => x.State == Order.StateList[3]).Count();
+      OrderPending = Orders.Where(x => x.State == Order.StateList[1]).Count();
+      OrderInProgress = Orders.Where(x => x.State == Order.StateList[2]).Count();
 
     }
 
@@ -57,29 +69,23 @@ namespace vistest.ViewModels
       {
         IdServis = AppState.CurrentServis.Id != 0 ? AppState.CurrentServis.Id : AppState.CurrentEmployee.IdServis,
         CreatedAt = DateTime.Now,
-        State = "Pending"
-      };
+        State = Order.StateList[0]
+			};
 
       await Shell.Current.GoToAsync(nameof(OrderDetailView));
     }
 
     [RelayCommand]
-    public async void OnOpenOrders(Order order)
+    public async void OnOpenOrders()
     {
-      
-    }
+			await Shell.Current.GoToAsync(nameof(OrderListView));
+		}
 
     [RelayCommand]
     public async void OnOpenEmployees()
     {
-      
-    }
-
-    [RelayCommand]
-    public async void OnOpenParts()
-    {
-      
-    }
+      await Shell.Current.GoToAsync(nameof(EmployeeListView));
+		}
 
   }
 }

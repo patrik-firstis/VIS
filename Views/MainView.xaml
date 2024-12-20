@@ -42,24 +42,22 @@
         <Button
           Text="Vytvoriť zakázku"
           Command="{Binding AddOrderCommand}"
+					IsVisible="{Binding CanCreateOrder}"
           HorizontalOptions="Fill"
           BackgroundColor="Cyan"/>
         <Button
           Text="Zoznam zákaziek"
           Command="{Binding OpenOrdersCommand}"
+					IsVisible="{Binding CanSearchOrders}"
           HorizontalOptions="Fill"
           BackgroundColor="Cyan"/>
-        <Button
+				<Button
           Text="Zoznam zamestnancov"
           Command="{Binding OpenEmployeesCommand}"
+					IsVisible="{Binding CanSearchEmployees}"
           HorizontalOptions="Fill"
           BackgroundColor="Cyan"/>
-        <Button
-          Text="Správa dielov"
-          Command="{Binding OpenPartsCommand}"
-          HorizontalOptions="Fill"
-          BackgroundColor="Cyan"/>
-      </VerticalStackLayout>
+			</VerticalStackLayout>
     </Border>
   </Grid>
 </ContentPage>

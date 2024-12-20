@@ -32,7 +32,9 @@ namespace vistest.ViewModels
     {
       ServisService.UpdateOrCreate(new Servis { Id = 1, Name = "Servis 1", Address = "Address 1" });
       EmployeeService.UpdateOrCreate(new Employee { Id = 1, IdServis = 1, Position = "Admin", Salary = 1000 });
-      AppState.CurrentServis = new Servis();
+			EmployeeService.UpdateOrCreate(new Employee { Id = 2, IdServis = 1, Position = "Manager", Salary = 800 });
+			EmployeeService.UpdateOrCreate(new Employee { Id = 3, IdServis = 1, Position = "Mechanic", Salary = 600 });
+			AppState.CurrentServis = new Servis();
       AppState.CurrentEmployee = new Employee();
     }
 

@@ -12,8 +12,8 @@ namespace vistest.DataServices
     public int Add(Car car)
     {
       string query = @"
-                INSERT INTO Car (id_customer, brand, model, licence_plate, last_mileage)
-                VALUES (@IdCustomer, @Brand, @Model, @LicencePlate, @LastMileage);";
+                INSERT INTO Car (id_customer, brand, model, licence_plate, vin, last_mileage)
+                VALUES (@IdCustomer, @Brand, @Model, @LicencePlate, @Vin, @LastMileage);";
 
       var parameters = new Dictionary<string, object?>
             {
@@ -21,7 +21,8 @@ namespace vistest.DataServices
                 {"@Brand", car.Brand},
                 {"@Model", car.Model},
                 {"@LicencePlate", car.LicencePlate},
-                {"@LastMileage", car.LastMileage}
+								{"@Vin", car.Vin},
+								{"@LastMileage", car.LastMileage}
             };
 
       return ExecuteScalarInsert(query, parameters);
@@ -32,7 +33,7 @@ namespace vistest.DataServices
       string query = @"
                 UPDATE Car
                 SET id_customer = @IdCustomer, brand = @Brand, model = @Model,
-                    licence_plate = @LicencePlate, last_mileage = @LastMileage
+                    licence_plate = @LicencePlate, last_mileage = @LastMileage, vin = @Vin
                 WHERE id_car = @Id;";
 
       var parameters = new Dictionary<string, object?>
@@ -42,8 +43,9 @@ namespace vistest.DataServices
                 {"@Brand", car.Brand},
                 {"@Model", car.Model},
                 {"@LicencePlate", car.LicencePlate},
-                {"@LastMileage", car.LastMileage}
-            };
+                {"@LastMileage", car.LastMileage},
+								{"@Vin", car.Vin}
+						};
 
       ExecuteNonQuery(query, parameters);
     }
@@ -70,7 +72,8 @@ namespace vistest.DataServices
           Brand = reader["brand"].ToString() ?? string.Empty,
           Model = reader["model"].ToString() ?? string.Empty,
           LicencePlate = reader["licence_plate"]?.ToString(),
-          LastMileage = Convert.ToInt32(reader["last_mileage"])
+					Vin = reader["vin"]?.ToString() ?? string.Empty,
+					LastMileage = Convert.ToInt32(reader["last_mileage"])
         };
       }
       return null;
@@ -91,7 +94,8 @@ namespace vistest.DataServices
           Brand = reader["brand"].ToString() ?? string.Empty,
           Model = reader["model"].ToString() ?? string.Empty,
           LicencePlate = reader["licence_plate"]?.ToString(),
-          LastMileage = Convert.ToInt32(reader["last_mileage"])
+					Vin = reader["vin"]?.ToString() ?? string.Empty,
+					LastMileage = Convert.ToInt32(reader["last_mileage"])
         });
       }
       return cars;

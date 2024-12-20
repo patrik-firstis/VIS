@@ -11,22 +11,32 @@
     <Entry
       Text="{Binding Customer.Name}"
       Placeholder="Meno zákazníka"
+			IsReadOnly="{Binding CanNotEdit}"
       WidthRequest="200"/>
     <Entry
       Text="{Binding Customer.SurName}"
       Placeholder="Priezvisko zákazníka"
+			IsReadOnly="{Binding CanNotEdit}"
       WidthRequest="200"/>
     <Entry
       Text="{Binding Customer.Phone}"
       Placeholder="Telefónne číslo"
+			IsReadOnly="{Binding CanNotEdit}"
       WidthRequest="200"/>
     <Entry
       Text="{Binding Customer.Email}"
       Placeholder="Email"
+			IsReadOnly="{Binding CanNotEdit}"
       WidthRequest="200"/>
     <Button
       Text="Uložiť"
       Command="{Binding SaveCommand}"
+			IsVisible="{Binding CanEdit}"
       BackgroundColor="Cyan"/>
-  </VerticalStackLayout>
+		<Button
+			Text="Zmazať"
+			Command="{Binding DeleteCommand}"
+			IsVisible="{Binding CanEdit}"
+			BackgroundColor="Red"/>
+	</VerticalStackLayout>
 </ContentPage>

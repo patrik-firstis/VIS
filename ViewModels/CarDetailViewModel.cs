@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,11 @@ namespace vistest.ViewModels
 
     [ObservableProperty]
     private Car car;
-    public CarDetailViewModel(CarService carService)
+    [ObservableProperty]
+		private bool _canEdit = false;
+    [ObservableProperty]
+		private bool _canNotEdit = true;
+		public CarDetailViewModel(CarService carService)
     {
       _carService = carService;
     }
@@ -24,9 +29,12 @@ namespace vistest.ViewModels
     public void OnAppearing()
     {
       Car = AppState.CurrentCar;
-    }
+			CanEdit = AppState.CurrentEmployee.Position == "Admin" || AppState.CurrentEmployee.Position == "Manager";
+			CanNotEdit = !CanEdit;
+		}
 
-    public async Task SaveCar()
+		[RelayCommand]
+    public async Task OnSave()
     {
       if (!CheckCar())
       {
@@ -45,7 +53,8 @@ namespace vistest.ViewModels
       await Shell.Current.GoToAsync("..");
     }
 
-    public async Task DeleteCar()
+		[RelayCommand]
+		public async Task OnDelete()
     {
       _carService.Delete(Car);
       AppState.CurrentCar = new Car();
@@ -62,11 +71,15 @@ namespace vistest.ViewModels
       {
         return false;
       }
-      if (string.IsNullOrEmpty(Car.LicencePlate) || Car.LicencePlate.Length < 7)
+      if (!string.IsNullOrEmpty(Car.LicencePlate) && Car.LicencePlate.Length < 7)
       {
         return false;
       }
-      if (Car.LastMileage == 0)
+			if (string.IsNullOrEmpty(Car.Vin) || Car.Vin.Length != 17)
+			{
+				return false;
+			}
+			if (Car.LastMileage == 0)
       {
         return false;
       }

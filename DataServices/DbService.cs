@@ -12,11 +12,11 @@ namespace vistest.DataServices
     private readonly string _dbPath;
     private readonly string _connectionString;
 
-    public DbService(string dbFileName = "database1.db")
+    public DbService(string dbFileName = "sqlite1.db")
     {
       string solutionFolder = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\..\.."));
 
-      _dbPath = Path.Combine(solutionFolder, "sqlite.db");
+      _dbPath = Path.Combine(solutionFolder, dbFileName);
       _connectionString = $"Data Source={_dbPath};Version=3;";
       InitializeDatabase();
     }
@@ -47,6 +47,7 @@ namespace vistest.DataServices
                         brand VARCHAR(45) NOT NULL,
                         model VARCHAR(45) NOT NULL,
                         licence_plate VARCHAR(17),
+                        vin VARCHAR(17) NOT NULL,
                         last_mileage INTEGER,
                         FOREIGN KEY (id_customer) REFERENCES Customer (id_customer)
                     );

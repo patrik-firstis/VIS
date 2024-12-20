@@ -15,5 +15,10 @@ namespace vistest.Models
 		private string _name = string.Empty;
 		[ObservableProperty]
 		private string _surName = string.Empty;
+
+		public string FullName
+		{
+			get => Name + " " + SurName;
+		}
 	}
 }

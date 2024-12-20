@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+						 xmlns:viewModels="clr-namespace:vistest.ViewModels"
+						 xmlns:models="clr-namespace:vistest.Models"
+             x:Class="vistest.Views.EmployeeDetailView"
+             Title="EmployeeDetailView"
+						 x:DataType="viewModels:EmployeeDeatilViewModel">
+	<VerticalStackLayout
+		WidthRequest="200"
+		Spacing="20">
+		<Label
+			Text="Majiteľ auta"
+			FontAttributes="Bold"
+			Margin="0,-10"/>
+		<Entry
+			Text="{Binding Employee.Name}"
+			Placeholder="Meno"
+			WidthRequest="200"/>
+		<Entry
+			Text="{Binding Employee.SurName}"
+			Placeholder="Priezvisko"
+			WidthRequest="200"/>
+		<Entry
+			Text="{Binding Employee.Salary}"
+			Placeholder="Plat"
+			WidthRequest="200"/>
+		<Label
+			Text="Pozícia"/>
+		<Picker
+			SelectedItem="{Binding Employee.Position}"
+			ItemsSource="{Binding PositionList}"/>
+		<Button
+			Text="Uložiť"
+			Command="{Binding SaveCommand}"
+			BackgroundColor="Cyan"/>
+		<Button
+			Text="Zmazať"
+			Command="{Binding DeleteCommand}"
+			BackgroundColor="Red"/>
+	</VerticalStackLayout>
+</ContentPage>

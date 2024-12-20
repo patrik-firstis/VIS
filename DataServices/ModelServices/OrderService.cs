@@ -12,15 +12,17 @@ namespace vistest.DataServices
     private readonly OrderRepository _orderRepository;
     private readonly CarRepository _carRepository;
     private readonly ServisRepository _servisRepository;
-    private readonly Dictionary<int, Order> _orderIdentityMap;
+		private readonly CustomerRepository _customerRepository;
+		private readonly Dictionary<int, Order> _orderIdentityMap;
 
-    public OrderService(OrderRepository orderRepository, CarRepository carRepository, ServisRepository servisRepository)
+    public OrderService(OrderRepository orderRepository, CarRepository carRepository, ServisRepository servisRepository, CustomerRepository customerRepository)
     {
       _orderRepository = orderRepository;
       _orderIdentityMap = new Dictionary<int, Order>();
       _carRepository = carRepository;
       _servisRepository = servisRepository;
-    }
+			_customerRepository = customerRepository;
+		}
 
     private Order? Add(Order order)
     {
@@ -70,7 +72,8 @@ namespace vistest.DataServices
       if (order != null)
       {
         order.Car = _carRepository.Get(order.IdCar)!;
-        order.Servis = _servisRepository.Get(order.IdServis)!;
+        order.Car.Customer = _customerRepository.Get(order.Car.IdCustomer)!;
+				order.Servis = _servisRepository.Get(order.IdServis)!;
         _orderIdentityMap[id] = order;
         return order;
       }
@@ -88,7 +91,9 @@ namespace vistest.DataServices
         foreach (var order in orders)
         {
           order.Car = _carRepository.Get(order.IdCar)!;
-          order.Servis = _servisRepository.Get(order.IdServis)!;
+          if (order.Car != null)
+					  order.Car.Customer = _customerRepository.Get(order.Car.IdCustomer)!;
+					order.Servis = _servisRepository.Get(order.IdServis)!;
           _orderIdentityMap[order.Id] = order;
         }
       }

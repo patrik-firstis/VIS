@@ -17,9 +17,16 @@ namespace vistest.Models
 		[ObservableProperty]
 		private string? _licencePlate;
 		[ObservableProperty]
+		private string _vin = string.Empty;
+		[ObservableProperty]
 		private int _lastMileage;
 		[ObservableProperty]
 		private Customer _customer = new();
+
+		public string FullName
+		{
+			get => Brand + " " + Model;
+		}
 	}
 
 }

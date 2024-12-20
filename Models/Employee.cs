@@ -7,13 +7,6 @@ using System.Threading.Tasks;
 
 namespace vistest.Models
 {
-	public enum Position
-	{
-		Administrator,
-		GarageManager,
-		Mechanic,
-		StorageManager,
-	}
 	public partial class Employee : Person
 	{
 		[ObservableProperty]
@@ -28,5 +21,7 @@ namespace vistest.Models
 		private double _salary;
 		[ObservableProperty]
 		private Servis _servis;
+
+		public static List<string> PositionList = ["Admin", "Manager", "Mechanic"];
 	}
 }

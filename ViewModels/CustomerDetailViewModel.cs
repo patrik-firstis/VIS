@@ -17,7 +17,11 @@ namespace vistest.ViewModels
 
     [ObservableProperty]
     private Customer _customer;
-    public CustomerDetailViewModel(CustomerService customerService)
+		[ObservableProperty]
+		private bool _canEdit = false;
+    [ObservableProperty]
+		private bool _canNotEdit = true;
+		public CustomerDetailViewModel(CustomerService customerService)
     {
       _customerService = customerService;
     }
@@ -25,7 +29,9 @@ namespace vistest.ViewModels
     public void OnAppearing()
     {
       Customer = AppState.CurrentCustomer;
-    }
+			CanEdit = AppState.CurrentEmployee.Position == "Admin" || AppState.CurrentEmployee.Position == "Manager";
+			CanNotEdit = !CanEdit;
+		}
 
     [RelayCommand]
     public async void OnSave()
@@ -63,11 +69,11 @@ namespace vistest.ViewModels
       {
         return false;
       }
-      if (string.IsNullOrEmpty(Customer.Phone) || Customer.Phone.Length != 10)
+      if (!string.IsNullOrEmpty(Customer.Phone) && (Customer.Phone.Length != 10 && (Customer.Phone.Length != 13 && Customer.Phone[0] != '+')))
       {
         return false;
       }
-      if (string.IsNullOrEmpty(Customer.Email) || !Customer.Email.Contains('@'))
+      if (!string.IsNullOrEmpty(Customer.Email) && !Customer.Email.Contains('@'))
       {
         return false;
       }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+						 xmlns:viewModels="clr-namespace:vistest.ViewModels"
+						 xmlns:models="clr-namespace:vistest.Models"
+             x:Class="vistest.Views.OrderListView"
+             Title="OrderListView"
+						 x:DataType="viewModels:OrderListViewModel">
+	<VerticalStackLayout>
+
+		<Grid ColumnDefinitions="*,*,*,*" BackgroundColor="Gray" Padding="10" ColumnSpacing="10">
+			<Button Grid.Column="0" Text="Datum Vytvorenia" BackgroundColor="Transparent" Command="{Binding SortDateCommand}"/>
+			<Button Grid.Column="1" Text="Stav" BackgroundColor="Transparent" Command="{Binding SortStateCommand	}"/>
+			<Grid Grid.Column="2" ColumnDefinitions="*, Auto" ColumnSpacing="5" Padding="5">
+				<Entry Grid.Column="0" Text="{Binding Customer.FullName}" />
+				<Button Grid.Column="1" Text="Vybrať"	Command="{Binding SelectCustomerCommand}" BackgroundColor="Cyan"/>
+				<Button Grid.Column="0"	Command="{Binding SortCustomerCommand}" BackgroundColor="Transparent"/>
+			</Grid>
+			<Grid Grid.Column="3" ColumnDefinitions="*, Auto" ColumnSpacing="5" Padding="5">
+				<Entry Grid.Column="0" Text="{Binding Car.FullName}" />
+				<Button Grid.Column="1" Text="Vybrať"	Command="{Binding SelectCarCommand}" BackgroundColor="Cyan"/>
+				<Button Grid.Column="0"	Command="{Binding SortCarCommand}" BackgroundColor="Transparent"/>
+			</Grid>
+		</Grid>
+		<CollectionView
+			Grid.Row="1"
+			ItemsSource="{Binding Orders}"
+			SelectionChangedCommand="{Binding EditOrderCommand}"
+			SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:RelativeSource Mode=Self}}"
+			SelectionMode="Single"
+>
+			<CollectionView.ItemTemplate>
+				<DataTemplate x:DataType="models:Order">
+					<Grid ColumnDefinitions="*,*,*,*" Padding="10" ColumnSpacing="10">
+						<Label Grid.Column="0" Text="{Binding CreatedAt}" />
+						<Label Grid.Column="1" Text="{Binding State}" />
+						<Label Grid.Column="2" Text="{Binding Car.Customer.FullName}" />
+						<Label Grid.Column="3" Text="{Binding Car.FullName}" />
+					</Grid>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
+	</VerticalStackLayout>
+</ContentPage>

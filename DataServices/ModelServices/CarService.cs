@@ -26,7 +26,8 @@ namespace vistest.DataServices
       var existingCar = _carRepository.Get(id);
       if (existingCar != null)
       {
-        _carIdentityMap[existingCar.Id] = existingCar;
+				existingCar.Customer = _customerRepository.Get(existingCar.IdCustomer)!;
+				_carIdentityMap[existingCar.Id] = existingCar;
       }
       return existingCar;
     }
@@ -39,8 +40,9 @@ namespace vistest.DataServices
       existingCar.Model = car.Model;
       existingCar.LicencePlate = car.LicencePlate;
       existingCar.LastMileage = car.LastMileage;
+      existingCar.Customer = car.Customer;
 
-      _carRepository.Update(existingCar);
+			_carRepository.Update(existingCar);
 
       return existingCar;
     }

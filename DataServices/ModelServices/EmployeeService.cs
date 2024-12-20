@@ -38,8 +38,9 @@ namespace vistest.DataServices
       existingEmployee.EmploymentStartAt = employee.EmploymentStartAt;
       existingEmployee.EmploymentEndAt = employee.EmploymentEndAt;
       existingEmployee.Salary = employee.Salary;
+      existingEmployee.Position = employee.Position;
 
-      _employeeRepository.Update(existingEmployee);
+			_employeeRepository.Update(existingEmployee);
 
       return existingEmployee;
     }
