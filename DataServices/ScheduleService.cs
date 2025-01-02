@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -10,11 +11,22 @@ namespace vistest.DataServices
 {
   public class ScheduleService
   {
-    private const string ScheduleFilePath = "schedule.json";
+    private string ScheduleFilePath = string.Empty;
     private static readonly TimeSpan WorkDayStart = TimeSpan.FromHours(8);
     private static readonly TimeSpan WorkDayEnd = TimeSpan.FromHours(20);
 
-    public static void AddToSchedule(int orderId)
+    public ScheduleService(string filename = "schedule.json")
+    {
+      string solutionFolder = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\..\.."));
+      ScheduleFilePath = Path.Combine(solutionFolder, filename);
+      if (!File.Exists(ScheduleFilePath)) 
+      {
+        using (File.Create(ScheduleFilePath)) { }
+        SaveSchedule(new List<Appointment>());
+      }
+    }
+
+    public Tuple<DateTime, DateTime> AddToSchedule(int orderId)
     {
       var schedule = LoadSchedule();
 
@@ -26,9 +38,11 @@ namespace vistest.DataServices
       appointment.EndTime = appointment.StartTime.AddHours(1);
       schedule.Add(appointment);
       SaveSchedule(schedule);
+
+      return Tuple.Create(appointment.StartTime, appointment.EndTime);
     }
 
-    private static List<Appointment> LoadSchedule()
+    private List<Appointment> LoadSchedule()
     {
       if (!File.Exists(ScheduleFilePath))
         return new List<Appointment>();
@@ -37,13 +51,13 @@ namespace vistest.DataServices
       return JsonSerializer.Deserialize<List<Appointment>>(jsonString) ?? new List<Appointment>();
     }
 
-    private static void SaveSchedule(List<Appointment> schedule)
+    private void SaveSchedule(List<Appointment> schedule)
     {
       string jsonString = JsonSerializer.Serialize(schedule, new JsonSerializerOptions { WriteIndented = true });
       File.WriteAllText(ScheduleFilePath, jsonString);
     }
 
-    private static DateTime FindNextAvailableTime(List<Appointment> schedule)
+    private DateTime FindNextAvailableTime(List<Appointment> schedule)
     {
       DateTime now = DateTime.Now;
       if (schedule.Count == 0)

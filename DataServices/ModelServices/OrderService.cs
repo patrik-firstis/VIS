@@ -13,19 +13,27 @@ namespace vistest.DataServices
     private readonly CarRepository _carRepository;
     private readonly ServisRepository _servisRepository;
 		private readonly CustomerRepository _customerRepository;
+    private readonly ScheduleService _scheduleService;
 		private readonly Dictionary<int, Order> _orderIdentityMap;
 
-    public OrderService(OrderRepository orderRepository, CarRepository carRepository, ServisRepository servisRepository, CustomerRepository customerRepository)
+    public OrderService(OrderRepository orderRepository, CarRepository carRepository, ServisRepository servisRepository, CustomerRepository customerRepository, ScheduleService scheduleService)
     {
       _orderRepository = orderRepository;
       _orderIdentityMap = new Dictionary<int, Order>();
       _carRepository = carRepository;
       _servisRepository = servisRepository;
 			_customerRepository = customerRepository;
-		}
+      _scheduleService = scheduleService;
+    }
 
     private Order? Add(Order order)
     {
+      // Pridaná funkcionalita na pridanie objednávky do kalendára
+      var dates = _scheduleService.AddToSchedule(order.Id);
+      order.DateOfStart = dates.Item1;
+      order.DateOfFinish = dates.Item2;
+      //
+
       var id = _orderRepository.Add(order);
       var existingOrder = _orderRepository.Get(id);
       if (existingOrder != null)

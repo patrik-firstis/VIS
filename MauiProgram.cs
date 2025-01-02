@@ -24,8 +24,9 @@ namespace vistest
 			
 			builder.Services
 				.AddSingleton<DbService>()
+        .AddSingleton<ScheduleService>()
 
-				.AddSingleton<CarRepository>()
+        .AddSingleton<CarRepository>()
 				.AddSingleton<CustomerRepository>()
 				.AddSingleton<EmployeeRepository>()
         .AddSingleton<OrderRepository>()
